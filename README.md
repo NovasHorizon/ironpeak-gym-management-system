@@ -14,7 +14,7 @@ A full-stack gym website and management system: members sign up, pick a plan and
 - Weekly class timetable with live "spots left" and one-click booking
 - Member sign-up, login and a dashboard to see and cancel upcoming classes
 - BMI calculator and a free-trial request form
-- Blog page that reads posts from WordPress (headless CMS, optional)
+- Blog page powered by WordPress as a headless CMS: coaches write in WordPress, posts appear on the site through the WordPress REST API
 
 **Backend (Laravel 12 + MySQL)**
 - REST API with token login (Laravel Sanctum)
@@ -39,7 +39,7 @@ A full-stack gym website and management system: members sign up, pick a plan and
 | Backend | PHP 8.2+, Laravel 12, Laravel Sanctum, Eloquent ORM |
 | Database | MySQL 8 / MariaDB (SQLite in-memory for tests) |
 | Admin panel | Laravel Blade, Bootstrap 5, jQuery 3 (AJAX) |
-| CMS | WordPress REST API (headless, optional) |
+| CMS | WordPress 7 as a headless CMS (REST API) |
 | Testing and quality | PHPUnit, Laravel Pint |
 | DevOps | Docker, Docker Compose, nginx, GitHub Actions |
 | API docs | OpenAPI 3, Swagger UI |
@@ -53,7 +53,8 @@ flowchart LR
     Admin --> API
     API --> DB[("MySQL")]
     Admin --> DB
-    Browser -.->|blog posts| WP["WordPress REST API<br/>(optional)"]
+    Browser -->|blog posts| WP["WordPress REST API<br/>headless CMS"]
+    WP --> DB
 ```
 
 ## Screenshots
@@ -63,8 +64,8 @@ flowchart LR
 | ![Plans](docs/screenshots/plans.jpg) | ![Booking](docs/screenshots/class-booking.jpg) |
 | **Member dashboard** | **Admin panel** |
 | ![Dashboard](docs/screenshots/member-dashboard.jpg) | ![Admin](docs/screenshots/admin-panel.jpg) |
-| **API docs (Swagger)** | **Coaches** |
-| ![API docs](docs/screenshots/api-docs.jpg) | ![Coaches](docs/screenshots/coaches.jpg) |
+| **Blog (posts from WordPress)** | **API docs (Swagger)** |
+| ![Blog](docs/screenshots/blog.jpg) | ![API docs](docs/screenshots/api-docs.jpg) |
 
 ## Run it locally
 
@@ -99,13 +100,9 @@ npm run dev
 
 Open http://localhost:5173. Vite forwards `/api` calls to Laravel, so no CORS setup is needed in development.
 
-**3. WordPress blog (optional)**
+**3. WordPress blog**
 
-Install WordPress, then create `client/.env.local` with:
-
-```
-VITE_WP_API=http://localhost/wordpress/wp-json/wp/v2
-```
+Follow [wordpress/README.md](wordpress/README.md): install WordPress, run `wordpress/setup-blog.php` to add the sample posts, start it on port 8080, and set `VITE_WP_API` in `client/.env.local` (see `client/.env.example`).
 
 ## Run with Docker
 
@@ -156,6 +153,7 @@ backend/                 Laravel 12 app
 client/                  React app (Vite)
   src/pages/             Home, Schedule, Join, Login, Dashboard, Blog
   src/components/        Navbar, plan cards, BMI calculator, trial form
+wordpress/               Blog setup script (WordPress as a headless CMS)
 docker-compose.yml       MySQL + API + website
 .github/workflows/       CI pipeline
 ```
