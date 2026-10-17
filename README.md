@@ -4,6 +4,9 @@ A full-stack gym website and management system: members sign up, pick a plan and
 
 ![CI](https://github.com/NovasHorizon/ironpeak-gym-management-system/actions/workflows/ci.yml/badge.svg)
 
+**Live demo:** [ironpeak-gym-rho.vercel.app](https://ironpeak-gym-rho.vercel.app) · [API docs](https://ironpeak-api-iyok.onrender.com/docs) · [Admin panel](https://ironpeak-api-iyok.onrender.com/admin)
+<sub>Hosted on free tiers: Vercel (website), Render (Laravel API, sleeps when idle, so the first request can take up to a minute), Aiven (MySQL), WordPress.com (blog).</sub>
+
 ![Home page](docs/screenshots/home.jpg)
 
 ## Features
