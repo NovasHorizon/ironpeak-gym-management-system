@@ -21,7 +21,8 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 
 COPY . .
 RUN composer dump-autoload --optimize \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod +x docker-entrypoint.sh
 
-# Run database migrations (and first-time seed data), then start Apache
-CMD ["sh", "-c", "php artisan migrate --force && php artisan db:seed --force && apache2-foreground"]
+# Migrations, first-time seed data and admin login, then Apache (see docker-entrypoint.sh)
+CMD ["./docker-entrypoint.sh"]

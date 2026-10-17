@@ -1,0 +1,38 @@
+# Render Blueprint: deploys the Laravel API + admin panel from backend/Dockerfile.
+# In Render: New > Blueprint > pick this repo. Values marked "sync: false" are asked for once.
+services:
+  - type: web
+    name: ironpeak-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /up
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: DB_CONNECTION
+        value: mysql
+      # Aiven "Service URI", e.g. mysql://avnadmin:PASSWORD@HOST:PORT/defaultdb?ssl-mode=REQUIRED
+      - key: DB_URL
+        sync: false
+      # Contents of Aiven's CA certificate (ca.pem)
+      - key: MYSQL_SSL_CA_PEM
+        sync: false
+      # Address of the React site, e.g. https://ironpeak-gym.vercel.app
+      - key: FRONTEND_URL
+        sync: false
+      # First staff login for /admin
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false

@@ -21,6 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(['admin' => EnsureUserIsAdmin::class]);
         $middleware->redirectGuestsTo(fn (Request $request) => $request->is('admin*') ? route('admin.login') : null);
         $middleware->redirectUsersTo('/admin');
+        // Hosts like Render handle HTTPS in front of the app; trust their headers so URLs stay https://
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // The API always answers in JSON as {"error": "..."}, which the React app shows to the user.
