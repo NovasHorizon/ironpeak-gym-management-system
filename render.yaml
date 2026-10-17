@@ -22,8 +22,16 @@ services:
         value: "true"
       - key: DB_CONNECTION
         value: mysql
-      # Aiven "Service URI", e.g. mysql://avnadmin:PASSWORD@HOST:PORT/defaultdb?ssl-mode=REQUIRED
-      - key: DB_URL
+      # From the Aiven service's "Connection information" panel
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DATABASE
+        value: defaultdb
+      - key: DB_USERNAME
+        value: avnadmin
+      - key: DB_PASSWORD
         sync: false
       # Contents of Aiven's CA certificate (ca.pem)
       - key: MYSQL_SSL_CA_PEM
